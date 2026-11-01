@@ -1,0 +1,38 @@
+1) A API REST organiza a troca de recursos entre o front-end e o back-end, acessados por URLs. E os 4 métodos HTTP usados no CRUD de cliente são: GET (responsável pela leitura de dados), POST(responsável pela criação de dados), PUT(corresponde a atualização desses dados) e DELETE(responsável por excluir esses dados ).
+2) A diferença é que no localStorage, os dados ficam salvos só no navegador de quem usava a página. Já no SQLite, os dados ficam guardados em um banco da dados (SQLite).
+3) Significa dizer que o id_cliente vai se somando um a cada vez que se cria um novo cliente, não sendo necessário criar manualmente um id (chave primária) específica para cada cliente.
+4) 'NOT NULL' significa que aquele campo em específico não pode ter valor nulo, ou seja, não informado. E raça e cor não precisam pois não atributos necessários, já que é informado qual o tipo do animal. E o não preenchemento desses campos (raça e cor) não travam o sistema, como acontece com os campos que possuem "NOT NULL", ja que esses são considerados essenciais.
+5) Para buscar todos os registros, utiliza-se o comando "SELECT * FROM [nome da tabela]". Já para apagar um registro em específico, utiliza-se o comando "DELETE [nome do registro] FROM [nome da tabela]"
+6) O "?" significa que é um placeholder, que é um termo usado para "pré moldar" o código de banco de dados, lendo-o como um dado, ao invés de um comando. Ele serve como proteção, pois caso algué digitasse no campo um valor malicioso, o SQL interpretaria como um comando.
+7) Deve aparecer um site em formato de JSON. Pois as informações dos clientes são guardadas nesse formato, como consta no código do arquivo 'arquivo,js': router.post('/', (req, res) => {
+  const erro = validarCliente(req.body);
+  if (erro) {
+    return res.status(400).json({ erro });
+  }
+
+  // Os campos opcionais recebem "null" quando não vierem na requisição:
+  // o SQLite aceita null (campo vazio), mas não aceita undefined.
+  const {
+    nome,
+    telefone,
+    tipo_pet,
+    nome_pet,
+    data_nascimento_pet = null,
+    raca = null,
+    cor = null,
+  } = req.body;
+
+  const resultado = db
+    .prepare(
+      `INSERT INTO clientes
+        (nome, telefone, tipo_pet, nome_pet, data_nascimento_pet, raca, cor)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`
+    )
+    .run(nome, telefone, tipo_pet, nome_pet, data_nascimento_pet, raca, cor);
+
+  const novoCliente = db
+    .prepare('SELECT * FROM clientes WHERE id_cliente = ?')
+    .get(resultado.lastInsertRowid);
+
+  res.status(201).json(novoCliente); 
+});
