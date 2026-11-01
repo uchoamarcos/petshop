@@ -7,12 +7,11 @@
 
 import { Router } from 'express';
 import db from '../database.js';
-app.use('/api/servicos', router);
 
-const router = Router();
+const router = Router(); // Criado no lugar correto, antes de qualquer uso!
 
 // Campos que toda requisição de criação/atualização de serviço precisa ter.
-const CAMPOS_OBRIGATORIOS = ['nome_servico', 'descricao', 'preco', 'duracao_minutos'];
+const CAMPOS_OBRIGATORIOS = ['nome_servico', 'preco'];
 
 // Confere se o corpo da requisição tem os campos obrigatórios preenchidos.
 function validarServico(dados) {
@@ -66,7 +65,7 @@ router.post('/', (req, res) => {
         (nome_servico, descricao, preco, duracao_minutos)
        VALUES (?, ?, ?, ?)`
     )
-    .run(nome_servico, descricao, preco, duracao_minutos);
+    .run(nome_servico, descricao || null, preco, duracao_minutos || null);
 
   const novoServico = db
     .prepare('SELECT * FROM servicos WHERE id_servico = ?')
@@ -75,7 +74,7 @@ router.post('/', (req, res) => {
   res.status(201).json(novoServico);
 });
 
-// PUT /api/servicos/:id -> atualiza um serviço existente
+// PUT /api/servicos/:id -> updates um serviço existente
 router.put('/:id', (req, res) => {
   const erro = validarServico(req.body);
   if (erro) {
@@ -101,7 +100,7 @@ router.put('/:id', (req, res) => {
     `UPDATE servicos SET
        nome_servico = ?, descricao = ?, preco = ?, duracao_minutos = ?
      WHERE id_servico = ?`
-  ).run(nome_servico, descricao, preco, duracao_minutos, req.params.id);
+  ).run(nome_servico, descricao || null, preco, duracao_minutos || null, req.params.id);
 
   const servicoAtualizado = db
     .prepare('SELECT * FROM servicos WHERE id_servico = ?')
