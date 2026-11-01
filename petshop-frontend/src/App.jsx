@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import ClientesLista from './pages/clientes/Lista';
 import ClienteFormulario from './pages/clientes/Formulario';
-import ServicosLista from './pages/Servicos';
+import ServicosLista from './pages/servicos/Lista';
 import ServicoFormulario from './pages/servicos/Formulario';
 
 // Cada <Route> liga um endereço (path) a uma página (element).
