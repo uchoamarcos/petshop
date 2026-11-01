@@ -39,20 +39,15 @@ db.exec(`
   )
 `);
 
-// ---------------------------------------------------------------------
-// PONTO DE EXERCÍCIO
-// ---------------------------------------------------------------------
-// Para criar um novo cadastro (por exemplo, "serviços oferecidos"),
-// crie uma nova tabela aqui, seguindo o mesmo modelo acima. Exemplo:
-//
-// db.exec(`
-//   CREATE TABLE IF NOT EXISTS servicos (
-//     id_servico INTEGER PRIMARY KEY AUTOINCREMENT,
-//     nome TEXT NOT NULL,
-//     descricao TEXT,
-//     preco REAL NOT NULL
-//   )
-// `);
-// ---------------------------------------------------------------------
+db.exec(`
+  CREATE TABLE IF NOT EXISTS servicos (
+    id_servico INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome_servico TEXT NOT NULL,
+    descricao TEXT,
+    preco REAL NOT NULL,
+    duracao_minutos INTEGER
+  )
+`);
+
 
 export default db;

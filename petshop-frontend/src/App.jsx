@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import ClientesLista from './pages/clientes/Lista';
 import ClienteFormulario from './pages/clientes/Formulario';
-import Servicos from './pages/Servicos';
+import ServicosLista from './pages/Servicos';
+import ServicoFormulario from './pages/servicos/Formulario';
 
 // Cada <Route> liga um endereço (path) a uma página (element).
 //
@@ -21,7 +22,9 @@ function App() {
         <Route path="/clientes" element={<ClientesLista />} />
         <Route path="/clientes/novo" element={<ClienteFormulario />} />
         <Route path="/clientes/:id/editar" element={<ClienteFormulario />} />
-        <Route path="/servicos" element={<Servicos />} />
+        <Route path="/servicos" element={<ServicosLista />} />
+        <Route path="/servicos/novo" element={<ServicoFormulario />} />
+        <Route path="/servicos/editar/:id" element={<ServicoFormulario />} />
       </Routes>
     </BrowserRouter>
   );
